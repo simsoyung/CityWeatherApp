@@ -7,15 +7,21 @@
 
 import UIKit
 import SnapKit
+import MapKit
 
 final class WeatherDetailViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let locationMainView = MainLocationView()
     private let tableView = UITableView()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     private let collectionSectionLabel = SectionView(frame: .zero, text: "3시간 간격의 일기예보")
-    private let TableViewSectionLabel = SectionView(frame: .zero, text: "5일 간의 일기예보")
+    private let tableViewSectionLabel = SectionView(frame: .zero, text: "5일 간의 일기예보")
+    private let mapView: MKMapView = {
+            let mapView = MKMapView()
+            return mapView
+        }()
 
     static func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -40,10 +46,13 @@ final class WeatherDetailViewController: BaseViewController {
         view.backgroundColor = UIColor(hexCode: "253348", alpha: 1.0)
     }
     override func configureHierarchy() {
-        view.addSubview(locationMainView)
-        view.addSubview(collectionView)
-        view.addSubview(collectionSectionLabel)
-        view.addSubview(TableViewSectionLabel)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(locationMainView)
+        contentView.addSubview(collectionView)
+        contentView.addSubview(collectionSectionLabel)
+        contentView.addSubview(tableViewSectionLabel)
+        contentView.addSubview(mapView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.id)
@@ -54,29 +63,42 @@ final class WeatherDetailViewController: BaseViewController {
         tableView.rowHeight = 60
     }
     override func configureConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(view)
+        }
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+        }
         locationMainView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.top.horizontalEdges.equalTo(contentView)
             make.height.equalTo(240)
         }
         collectionSectionLabel.snp.makeConstraints { make in
             make.top.equalTo(locationMainView.snp.bottom)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.horizontalEdges.equalTo(contentView).offset(10)
             make.height.equalTo(30)
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(collectionSectionLabel.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalTo(contentView).inset(10)
             make.height.equalTo(160)
         }
-        TableViewSectionLabel.snp.makeConstraints { make in
+        tableViewSectionLabel.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalTo(contentView).inset(10)
             make.height.equalTo(30)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(TableViewSectionLabel.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.top.equalTo(tableViewSectionLabel.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(contentView).inset(10)
             make.height.equalTo(300)
+        }
+        mapView.snp.makeConstraints { make in
+            make.top.equalTo(tableView.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(contentView).inset(20)
+            make.height.equalTo(300)
+            make.bottom.equalTo(contentView)
         }
     }
 }
@@ -88,6 +110,7 @@ extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as! MainCollectionViewCell
+        
         return cell
     }
 }
@@ -99,6 +122,7 @@ extension WeatherDetailViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as! MainTableViewCell
+        cell.selectionStyle = .none
         return cell
     }
    
