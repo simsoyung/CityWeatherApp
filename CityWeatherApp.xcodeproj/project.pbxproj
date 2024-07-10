@@ -32,6 +32,7 @@
 		46D6BC932C3EE5D500A8B683 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D6BC922C3EE5D400A8B683 /* MainTableViewCell.swift */; };
 		46D6BC952C3EEE3300A8B683 /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D6BC942C3EEE3200A8B683 /* SectionView.swift */; };
 		46D6BC972C3EEE8100A8B683 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D6BC962C3EEE8100A8B683 /* BaseView.swift */; };
+		46D6BC992C3F04CE00A8B683 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D6BC982C3F04CE00A8B683 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		46D6BC922C3EE5D400A8B683 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		46D6BC942C3EEE3200A8B683 /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
 		46D6BC962C3EEE8100A8B683 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		46D6BC982C3F04CE00A8B683 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 			children = (
 				46D6BC892C3ECAD000A8B683 /* MainLocationView.swift */,
 				46D6BC942C3EEE3200A8B683 /* SectionView.swift */,
+				46D6BC982C3F04CE00A8B683 /* DetailView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				46D6BC7D2C3EB59C00A8B683 /* ResponseAPI.swift in Sources */,
 				46D6BC832C3EB6F500A8B683 /* WeatherDecodable.swift in Sources */,
 				46D6BC972C3EEE8100A8B683 /* BaseView.swift in Sources */,
+				46D6BC992C3F04CE00A8B683 /* DetailView.swift in Sources */,
 				46D6BC522C3EB05900A8B683 /* SceneDelegate.swift in Sources */,
 				46D6BC782C3EB3C700A8B683 /* BaseCollectionViewCell.swift in Sources */,
 			);

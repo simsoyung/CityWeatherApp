@@ -18,6 +18,10 @@ final class WeatherDetailViewController: BaseViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     private let collectionSectionLabel = SectionView(frame: .zero, text: "3시간 간격의 일기예보")
     private let tableViewSectionLabel = SectionView(frame: .zero, text: "5일 간의 일기예보")
+    private let detailView1 = DetailView(frame: .zero, systemName: "star.fill", typeText: "바람 속도")
+    private let detailView2 = DetailView(frame: .zero, systemName: "star", typeText: "구름")
+    private let detailView3 = DetailView(frame: .zero, systemName: "wind", typeText: "기압")
+    private let detailView4 = DetailView(frame: .zero, systemName: "cloud.rain", typeText: "습도")
     private let mapView: MKMapView = {
             let mapView = MKMapView()
             return mapView
@@ -34,14 +38,18 @@ final class WeatherDetailViewController: BaseViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        detailView1.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
+        detailView2.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
+        detailView3.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
+        detailView4.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
     }
     override func configureView() {
         super.configureView()
         collectionView.backgroundColor = .clear
         collectionView.layer.cornerRadius = 10
-        collectionView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         tableView.backgroundColor = .clear
         tableView.layer.cornerRadius = 10
+        collectionView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         tableView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         view.backgroundColor = UIColor(hexCode: "253348", alpha: 1.0)
     }
@@ -53,6 +61,10 @@ final class WeatherDetailViewController: BaseViewController {
         contentView.addSubview(collectionSectionLabel)
         contentView.addSubview(tableViewSectionLabel)
         contentView.addSubview(mapView)
+        contentView.addSubview(detailView1)
+        contentView.addSubview(detailView2)
+        contentView.addSubview(detailView3)
+        contentView.addSubview(detailView4)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.id)
@@ -98,6 +110,27 @@ final class WeatherDetailViewController: BaseViewController {
             make.top.equalTo(tableView.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(contentView).inset(20)
             make.height.equalTo(300)
+        }
+        detailView1.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom).offset(20)
+            make.leading.equalTo(contentView).offset(20)
+            make.size.equalTo(170)
+        }
+        detailView2.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom).offset(20)
+            make.trailing.equalTo(contentView).inset(20)
+            make.size.equalTo(170)
+        }
+        detailView3.snp.makeConstraints { make in
+            make.top.equalTo(detailView1.snp.bottom).offset(20)
+            make.leading.equalTo(contentView).offset(20)
+            make.size.equalTo(170)
+            make.bottom.equalTo(contentView)
+        }
+        detailView4.snp.makeConstraints { make in
+            make.top.equalTo(detailView2.snp.bottom).offset(20)
+            make.trailing.equalTo(contentView).inset(20)
+            make.size.equalTo(170)
             make.bottom.equalTo(contentView)
         }
     }
