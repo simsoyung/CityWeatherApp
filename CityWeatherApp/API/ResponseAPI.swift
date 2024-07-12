@@ -17,7 +17,8 @@ class ResponseAPI {
             switch response.result {
             case .success(let value):
                 completionHandler(value, nil)
-            case .failure(_):
+            case .failure(let err):
+                print(err.localizedDescription)
                 completionHandler(nil, "검색어를 다시 입력해주세요")
             }
         }

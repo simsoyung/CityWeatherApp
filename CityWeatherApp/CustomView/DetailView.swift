@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
  
 final class DetailView: BaseView {
     
@@ -82,7 +83,9 @@ final class DetailView: BaseView {
         addSubview(resultLabel)
         addSubview(subscriptLabel)
     }
-    func setText(callResult numResult: String, resultDetail subLabel: String) {
+    func setText(numResult: String, subLabel: String, iconImageResult: String, cityResult: String ) {
+        let url = URL(string: iconImageResult)
+        iconImage.kf.setImage(with: url)
         resultLabel.text = numResult
         subscriptLabel.text = subLabel
     }

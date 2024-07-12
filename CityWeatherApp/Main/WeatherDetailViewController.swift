@@ -11,6 +11,7 @@ import MapKit
 
 final class WeatherDetailViewController: BaseViewController {
     
+    let viewModel = WeatherModel()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let locationMainView = MainLocationView()
@@ -38,11 +39,20 @@ final class WeatherDetailViewController: BaseViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindData()
         detailView1.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
         detailView2.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
         detailView3.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
         detailView4.setText(callResult: "뷰모델", resultDetail: "뷰모델에서 받아올거다~~")
     }
+    func bindData(){
+        viewModel.inputViewDidLoadTrigger.value = (1835847)
+        viewModel.outputWeatherData.bind { weather in
+            self.tableView.reloadData()
+            self.collectionView.reloadData()
+        }
+    }
+    
     override func configureView() {
         super.configureView()
         collectionView.backgroundColor = .clear
@@ -52,6 +62,7 @@ final class WeatherDetailViewController: BaseViewController {
         collectionView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         tableView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         view.backgroundColor = UIColor(hexCode: "253348", alpha: 1.0)
+        detailView1.setText(numResult: "", subLabel: "", iconImageResult: "", cityResult: "")
     }
     override func configureHierarchy() {
         view.addSubview(scrollView)
@@ -138,11 +149,12 @@ final class WeatherDetailViewController: BaseViewController {
 
 extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        return viewModel.outputWeatherData.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as! MainCollectionViewCell
+        let data = viewModel.outputWeatherData.value?[indexPath.item]
         
         return cell
     }
