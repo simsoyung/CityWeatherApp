@@ -82,4 +82,7 @@ final class MainTableViewCell: BaseTableViewCell {
         addSubview(minTempLabel)
         addSubview(maxTempLabel)
     }
+    func configureCell(data: Weather?){
+        
+    }
 }

@@ -69,4 +69,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         backgroundColor = .clear
     }
+    func configureCell(data: Weather?){
+        
+    }
 }

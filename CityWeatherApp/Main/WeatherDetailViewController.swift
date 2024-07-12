@@ -12,7 +12,7 @@ import MapKit
 import RealmSwift
 
 final class WeatherDetailViewController: BaseViewController {
-    let weatherList: [String] = []
+    
     let viewModel = WeatherModel()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -21,10 +21,10 @@ final class WeatherDetailViewController: BaseViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     private let collectionSectionLabel = SectionView(frame: .zero, text: "3시간 간격의 일기예보")
     private let tableViewSectionLabel = SectionView(frame: .zero, text: "5일 간의 일기예보")
-    private let detailView1 = DetailView(frame: .zero, systemName: "star.fill", typeText: "바람 속도")
-    private let detailView2 = DetailView(frame: .zero, systemName: "star", typeText: "구름")
-    private let detailView3 = DetailView(frame: .zero, systemName: "wind", typeText: "기압")
-    private let detailView4 = DetailView(frame: .zero, systemName: "cloud.rain", typeText: "습도")
+    private let wind = DetailView(frame: .zero, systemName: "star.fill", typeText: "바람 속도")
+    private let cloud = DetailView(frame: .zero, systemName: "star", typeText: "구름")
+    private let pressure = DetailView(frame: .zero, systemName: "wind", typeText: "기압")
+    private let humidity = DetailView(frame: .zero, systemName: "cloud.rain", typeText: "습도")
     private let mapView: MKMapView = {
             let mapView = MKMapView()
             return mapView
@@ -65,10 +65,10 @@ final class WeatherDetailViewController: BaseViewController {
         contentView.addSubview(collectionSectionLabel)
         contentView.addSubview(tableViewSectionLabel)
         contentView.addSubview(mapView)
-        contentView.addSubview(detailView1)
-        contentView.addSubview(detailView2)
-        contentView.addSubview(detailView3)
-        contentView.addSubview(detailView4)
+        contentView.addSubview(wind)
+        contentView.addSubview(cloud)
+        contentView.addSubview(pressure)
+        contentView.addSubview(humidity)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.id)
@@ -115,24 +115,24 @@ final class WeatherDetailViewController: BaseViewController {
             make.horizontalEdges.equalTo(contentView).inset(20)
             make.height.equalTo(300)
         }
-        detailView1.snp.makeConstraints { make in
+        wind.snp.makeConstraints { make in
             make.top.equalTo(mapView.snp.bottom).offset(20)
             make.leading.equalTo(contentView).offset(20)
             make.size.equalTo(170)
         }
-        detailView2.snp.makeConstraints { make in
+        cloud.snp.makeConstraints { make in
             make.top.equalTo(mapView.snp.bottom).offset(20)
             make.trailing.equalTo(contentView).inset(20)
             make.size.equalTo(170)
         }
-        detailView3.snp.makeConstraints { make in
-            make.top.equalTo(detailView1.snp.bottom).offset(20)
+        pressure.snp.makeConstraints { make in
+            make.top.equalTo(wind.snp.bottom).offset(20)
             make.leading.equalTo(contentView).offset(20)
             make.size.equalTo(170)
             make.bottom.equalTo(contentView)
         }
-        detailView4.snp.makeConstraints { make in
-            make.top.equalTo(detailView2.snp.bottom).offset(20)
+        humidity.snp.makeConstraints { make in
+            make.top.equalTo(cloud.snp.bottom).offset(20)
             make.trailing.equalTo(contentView).inset(20)
             make.size.equalTo(170)
             make.bottom.equalTo(contentView)
@@ -140,43 +140,40 @@ final class WeatherDetailViewController: BaseViewController {
     }
     
     func bindData(){
-        viewModel.inputViewDidLoadTrigger.value = (1835847)
+        viewModel.inputViewDidLoadTrigger.value = (nil)
         viewModel.outputWeatherData.bind { weather in
             self.tableView.reloadData()
             self.collectionView.reloadData()
         }
     }
     func setData(){
-        locationMainView.setText(location: "", temp: "", weatherResult: "", minMaxTemp: "")
-        detailView1.setText(numResult: "", subLabel: "", iconImageResult: "", cityResult: "")
-        detailView2.setText(numResult: "", subLabel: "", iconImageResult: "", cityResult: "")
-        detailView3.setText(numResult: "", subLabel: "", iconImageResult: "", cityResult: "")
-        detailView4.setText(numResult: "", subLabel: "", iconImageResult: "", cityResult: "")
+
     }
 }
 
 extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-        //viewModel.outputWeatherData.value?.count ?? 0
+        return viewModel.outputWeatherData.value?.weather.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as! MainCollectionViewCell
-        //let data = viewModel.outputWeatherData.value?[indexPath.item]
-        
+        let data = viewModel.outputWeatherData.value?.weather[indexPath.item]
+        cell.configureCell(data: data)
         return cell
     }
 }
 
 extension WeatherDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        return viewModel.outputWeatherData.value?.weather.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
+        let data = viewModel.outputWeatherData.value?.weather[indexPath.row]
+        cell.configureCell(data: data)
         return cell
     }
    

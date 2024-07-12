@@ -10,16 +10,17 @@ import UIKit
 struct WeatherDecodable: Decodable {
     let coord: Coord
     let main: MainWeather
-    let wind: Wind?
+    let wind: Wind
     let weather: [Weather]
     let clouds: Clouds
-    let name: String?
-    let id: Int?
-    let timezone: Int?
+    let name: String
+    let id: Int
+    let timezone: Int
 }
 
 struct Coord: Decodable {
-    let lat, lon: Double
+    let lat: Double
+    let lon: Double
 }
 struct MainWeather: Decodable {
     let temp, temp_min, temp_max : Double
