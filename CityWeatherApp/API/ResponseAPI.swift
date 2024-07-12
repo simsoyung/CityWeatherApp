@@ -20,12 +20,12 @@ class ResponseAPI {
                 if let icon = value as? WeatherDecodable {
                     let iconCode = icon.weather.first?.icon ?? ""
                     let iconUrlString = "https://openweathermap.org/img/wn/\(iconCode)@2x.png"
-                        completionHandler(value, iconUrlString, "아이콘 URL 생성 실패")
+                        completionHandler(value, iconUrlString, "아이콘 URL 생성 ")
                 } else {
-                    completionHandler(value, nil, "WeatherDecodable 캐스팅 실패")
+                    completionHandler(value, nil, "아이콘 URL 실패")
                 }
             case .failure(let error) :
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -37,12 +37,12 @@ class ResponseAPI {
                 if let icon = value as? ForecastDecodable {
                     let iconCode = icon.list.first?.weather.first?.icon ?? ""
                     let iconUrlString = "https://openweathermap.org/img/wn/\(iconCode)@2x.png"
-                        completionHandler(value, iconUrlString, "아이콘 URL 생성 실패")
+                        completionHandler(value, iconUrlString, "아이콘 URL 생성")
                 } else {
-                    completionHandler(value, nil, "WeatherDecodable 캐스팅 실패")
+                    completionHandler(value, nil, "아이콘 URL 실패")
                 }
             case .failure(let error) :
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

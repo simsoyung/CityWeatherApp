@@ -44,7 +44,6 @@ final class WeatherDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindData()
-        setData()
        // print(realm.configuration.fileURL)
     }
     override func configureView() {
@@ -143,13 +142,20 @@ final class WeatherDetailViewController: BaseViewController {
     func bindData(){
         viewModel.location.startUpdatingLocation()
         viewModel.inputViewDidLoadTrigger.value = (nil)
-        viewModel.outputWeatherData.bind { weather in
+        viewModel.outputForecastData.bind { weather in
+            self.setData()
             self.tableView.reloadData()
             self.collectionView.reloadData()
         }
     }
     func setData(){
-
+        guard let data = viewModel.outputForecastData.value else {return}
+        let temp = data.list[0].main.temp - 273.15
+        let tempFormat = String(format: "%.1f°", temp)
+        let tempMax = data.list[0].main.temp_max - 273.15
+        let tempMin = data.list[0].main.temp_min - 273.15
+        let minmax = String(format: "최고: %.1f° | 최저: %.1f°", tempMax, tempMin)
+        locationMainView.setText(location: data.city.name, temp: tempFormat, weatherResult: data.list[0].weather[0].description, minMaxTemp: minmax)
     }
 }
 

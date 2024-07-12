@@ -63,7 +63,31 @@ struct City: Decodable {
     let coord: Coord
     let country: String
     let population, timezone, sunrise, sunset: Int
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case name
+        case coord
+        case country
+        case population
+        case timezone
+        case sunrise
+        case sunset
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decodeIfPresent(Int.self, forKey: .id) ?? 1835847
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "서울"
+        self.coord = try container.decode(Coord.self, forKey: .coord)
+        self.country = try container.decode(String.self, forKey: .country)
+        self.population = try container.decode(Int.self, forKey: .population)
+        self.timezone = try container.decode(Int.self, forKey: .timezone)
+        self.sunrise = try container.decode(Int.self, forKey: .sunrise)
+        self.sunset = try container.decode(Int.self, forKey: .sunset)
+    }
 }
+
 
 struct MainClass: Decodable {
     let temp, temp_min, temp_max : Double

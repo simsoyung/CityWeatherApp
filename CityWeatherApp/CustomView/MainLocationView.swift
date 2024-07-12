@@ -15,7 +15,6 @@ final class MainLocationView: BaseView {
         label.textColor = .white
         label.font = .systemFont(ofSize: 40, weight: .light)
         label.textAlignment = .center
-        label.text = "Jeju city"
         return label
     }()
     
@@ -24,7 +23,6 @@ final class MainLocationView: BaseView {
         label.textColor = .white
         label.font = .systemFont(ofSize: 90, weight: .thin)
         label.textAlignment = .center
-        label.text = "5.9°"
         return label
     }()
     
@@ -33,7 +31,6 @@ final class MainLocationView: BaseView {
         label.textColor = .white
         label.font = .systemFont(ofSize: 25, weight: .regular)
         label.textAlignment = .center
-        label.text = "Jeju city"
         return label
     }()
     
@@ -42,7 +39,6 @@ final class MainLocationView: BaseView {
         label.textColor = .white
         label.font = .systemFont(ofSize: 25, weight: .regular)
         label.textAlignment = .center
-        label.text = "Jeju city"
         return label
     }()
     
