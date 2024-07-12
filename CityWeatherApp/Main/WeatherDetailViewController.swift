@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import MapKit
 
-import RealmSwift
+//import RealmSwift
 
 final class WeatherDetailViewController: BaseViewController {
     
@@ -29,7 +29,8 @@ final class WeatherDetailViewController: BaseViewController {
             let mapView = MKMapView()
             return mapView
         }()
-    let realm = try! Realm()
+    
+    //let realm = try! Realm()
     
     static func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -44,7 +45,7 @@ final class WeatherDetailViewController: BaseViewController {
         super.viewDidLoad()
         bindData()
         setData()
-        print(realm.configuration.fileURL)
+       // print(realm.configuration.fileURL)
     }
     override func configureView() {
         super.configureView()
@@ -140,6 +141,7 @@ final class WeatherDetailViewController: BaseViewController {
     }
     
     func bindData(){
+        viewModel.location.startUpdatingLocation()
         viewModel.inputViewDidLoadTrigger.value = (nil)
         viewModel.outputWeatherData.bind { weather in
             self.tableView.reloadData()
@@ -153,27 +155,29 @@ final class WeatherDetailViewController: BaseViewController {
 
 extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.outputWeatherData.value?.weather.count ?? 0
+        return 10
+        //viewModel.outputWeatherData.value?.weather.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as! MainCollectionViewCell
-        let data = viewModel.outputWeatherData.value?.weather[indexPath.item]
-        cell.configureCell(data: data)
+        //let data = viewModel.outputWeatherData.value?.weather[indexPath.item]
+        //cell.configureCell(data: data)
         return cell
     }
 }
 
 extension WeatherDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.outputWeatherData.value?.weather.count ?? 0
+        return 10
+        //viewModel.outputWeatherData.value?.weather.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
-        let data = viewModel.outputWeatherData.value?.weather[indexPath.row]
-        cell.configureCell(data: data)
+        //let data = viewModel.outputWeatherData.value?.weather[indexPath.row]
+        //cell.configureCell(data: data)
         return cell
     }
    
