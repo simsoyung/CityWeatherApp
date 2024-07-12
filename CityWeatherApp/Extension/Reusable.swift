@@ -22,3 +22,4 @@ extension UICollectionViewCell: Reusable {
        return String(describing: self)
     }
 }
+

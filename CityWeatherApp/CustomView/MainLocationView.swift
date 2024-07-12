@@ -89,4 +89,11 @@ final class MainLocationView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setText(location: String, temp: String, weatherResult: String, minMaxTemp: String ) {
+        locationLabel.text = location
+        tempLabel.text = temp
+        weatherTextLabel.text = weatherResult
+        minmaxLabel.text = minMaxTemp
+    }
+    
 }

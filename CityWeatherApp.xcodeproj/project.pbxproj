@@ -12,6 +12,7 @@
 		46D3EF692C3FCDCB00E0900F /* WeatherRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D3EF682C3FCDCB00E0900F /* WeatherRepository.swift */; };
 		46D3EF6B2C3FCF5B00E0900F /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D3EF6A2C3FCF5B00E0900F /* RealmModel.swift */; };
 		46D3EF6E2C3FD86600E0900F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 46D3EF6D2C3FD86600E0900F /* Kingfisher */; };
+		46D3EF712C41137100E0900F /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D3EF702C41137100E0900F /* UserDefault.swift */; };
 		46D6BC502C3EB05900A8B683 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D6BC4F2C3EB05900A8B683 /* AppDelegate.swift */; };
 		46D6BC522C3EB05900A8B683 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D6BC512C3EB05900A8B683 /* SceneDelegate.swift */; };
 		46D6BC592C3EB05D00A8B683 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46D6BC582C3EB05D00A8B683 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		46D3EF662C3FCA4100E0900F /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		46D3EF682C3FCDCB00E0900F /* WeatherRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepository.swift; sourceTree = "<group>"; };
 		46D3EF6A2C3FCF5B00E0900F /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		46D3EF702C41137100E0900F /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		46D6BC4C2C3EB05900A8B683 /* CityWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46D6BC4F2C3EB05900A8B683 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46D6BC512C3EB05900A8B683 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,23 @@
 			path = Observable;
 			sourceTree = "<group>";
 		};
+		46D3EF6F2C41135600E0900F /* UserDefault */ = {
+			isa = PBXGroup;
+			children = (
+				46D3EF702C41137100E0900F /* UserDefault.swift */,
+			);
+			path = UserDefault;
+			sourceTree = "<group>";
+		};
+		46D3EF722C41175200E0900F /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				46D3EF6A2C3FCF5B00E0900F /* RealmModel.swift */,
+				46D3EF682C3FCDCB00E0900F /* WeatherRepository.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 		46D6BC432C3EB05900A8B683 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				46D6BC842C3EBF9600A8B683 /* .gitignore */,
+				46D3EF722C41175200E0900F /* Realm */,
+				46D3EF6F2C41135600E0900F /* UserDefault */,
 				46D3EF652C3FCA3200E0900F /* Observable */,
 				46D6BC8B2C3ECD9100A8B683 /* Extension */,
 				46D6BC7B2C3EB58500A8B683 /* API */,
@@ -169,8 +190,6 @@
 				46D6BC7E2C3EB60000A8B683 /* APIURL.swift */,
 				46D6BC822C3EB6F400A8B683 /* WeatherDecodable.swift */,
 				46D6BC862C3EBFAC00A8B683 /* Key.swift */,
-				46D3EF6A2C3FCF5B00E0900F /* RealmModel.swift */,
-				46D3EF682C3FCDCB00E0900F /* WeatherRepository.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -286,6 +305,7 @@
 				46D6BC8D2C3ECDA400A8B683 /* HexCode.swift in Sources */,
 				46D6BC8F2C3EDDA600A8B683 /* Reusable.swift in Sources */,
 				46D6BC912C3EE13100A8B683 /* MainCollectionViewCell.swift in Sources */,
+				46D3EF712C41137100E0900F /* UserDefault.swift in Sources */,
 				46D6BC742C3EB37C00A8B683 /* BaseViewController.swift in Sources */,
 				46D6BC722C3EB2F000A8B683 /* WeatherDetailViewController.swift in Sources */,
 				46D3EF672C3FCA4100E0900F /* Observable.swift in Sources */,

@@ -10,10 +10,10 @@ import Foundation
 import Alamofire
 
 enum WeatherRequest {
-    case locationWeather(lat: String, lon: String)
-    case cityIdWeather(id: String)
-    case locationForecast(lat: String, lon: String)
-    case cityIdForecast(id: String)
+    case locationWeather(lat: String, lon: String, key: String)
+    case cityIdWeather(id: Int, key: String)
+    case locationForecast(lat: String, lon: String, key: String)
+    case cityIdForecast(id: Int, key: String)
     case iconWeather(query: String)
 
     var baseWeatherURL: String {
@@ -41,22 +41,16 @@ enum WeatherRequest {
     }
     var parameter: Parameters {
         switch self {
-        case .locationWeather(let lat, let lon):
-            return ["lat": lat , "lon": lon]
-        case .cityIdWeather(let id):
-            return ["id": id]
-        case .locationForecast(let lat, let lon):
-            return ["lat": lat , "lon": lon]
-        case .cityIdForecast(let id):
-            return ["id": id]
+        case .locationWeather(let lat, let lon, let key):
+            return ["lat": lat , "lon": lon, "appid": key]
+        case .cityIdWeather(let id, let key):
+            return ["id": id, "appid": key]
+        case .locationForecast(let lat, let lon, let key):
+            return ["lat": lat , "lon": lon, "appid": key]
+        case .cityIdForecast(let id, let key):
+            return ["id": id, "appid": key]
         case .iconWeather:
             return ["":""]
-        }
-    }
-    var hearderAPI: HTTPHeaders {
-        switch self {
-        case .locationWeather, .cityIdWeather, .locationForecast, .cityIdForecast, .iconWeather:
-            return ["appid" : "\(APIKey.weatherKey)"]
         }
     }
 }
