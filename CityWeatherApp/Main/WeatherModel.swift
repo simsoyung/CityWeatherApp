@@ -17,10 +17,10 @@ final class WeatherModel{
     var inputViewDidLoadLat: Double = 0 //사용자 lat
     var inputViewDidLoadLon: Double = 0 //사용자 lon
     var inputCityId: Int? = nil //사용자 도시
+    var outpurIconurl: [String]? = []
+    var outputTimeList: [String]? = []
     var outputWeatherData: Observable<WeatherDecodable?> = Observable(nil) //받은 전체 데이터
     var outputForecastData: Observable<ForecastDecodable?> = Observable(nil)
-    var outputIconList: Observable<Weather?> = Observable(nil)
-    var outputTimeList: Observable<WeatherList?> = Observable(nil)
 
     init(){
         transform()
@@ -45,24 +45,30 @@ final class WeatherModel{
     }
     
     private func callRequest(){
-        guard let value = inputViewDidLoadTrigger.value else {return}
-        print(inputCityId)
-        print(value)
-//        ResponseAPI.shared.responseWeather(api: .locationWeather(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, imagestr, error  in
+        guard inputViewDidLoadTrigger.value != nil else {return}
+//        ResponseAPI.shared.responseWeather(api: .locationWeather(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
 //            print("위치 현재날씨")
 //            self.outputWeatherData.value = value
+//            self.outpurIconurl = iconUrls
 //        }
-//        ResponseAPI.shared.responseWeather(api: .cityIdWeather(id: inputCityId, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, imagestr, error  in
+//        ResponseAPI.shared.responseWeather(api: .cityIdWeather(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
 //            print("도시 현재날씨")
 //            self.outputWeatherData.value = value
+//            self.outpurIconurl = iconUrls
 //        }
-//        ResponseAPI.shared.responseForecast(api: .locationForecast(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, imagestr, error  in
+//        ResponseAPI.shared.responseForecast(api: .locationForecast(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, iconUrls, error  in
 //            print("위치 3시간 단위 날씨")
 //            self.outputForecastData.value = value
+//            self.outpurIconurl = iconUrls
 //        }
-        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, imagestr, error  in
+//        ResponseAPI.shared.responseStr(api: .locationForecast(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, iconUrls, error in
+//            print(value, "배열??")
+//            print(iconUrls, "아이콘")
+//        }
+        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, iconUrls, error  in
             print("도시 3시간 단위 날씨")
             self.outputForecastData.value = value
+            self.outpurIconurl = iconUrls
         }
     }
     private func saveCity(cityId: Int, cityName: String, lat: Double, lon: Double){ //도시랑 내 위치 realm에 저장??

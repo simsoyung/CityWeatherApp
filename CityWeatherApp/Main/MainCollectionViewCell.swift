@@ -7,22 +7,21 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class MainCollectionViewCell: BaseCollectionViewCell {
-    
+    let viewModel = WeatherModel()
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 20, weight: .regular)
         label.textAlignment = .center
-        label.text = "12시"
         return label
     }()
     
     private lazy var iconImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(systemName: "star")
         return image
     }()
     
@@ -31,7 +30,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 20, weight: .regular)
         label.textAlignment = .center
-        label.text = "5°"
+        //label.text = "5°"
         return label
     }()
     
@@ -69,7 +68,18 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         backgroundColor = .clear
     }
-    func configureCell(data: Weather?){
+    func setText(icon: String ) {
+        let url = URL(string: icon)
+        iconImage.kf.setImage(with: url)
+    }
+    func configureWeatherCell(data: Weather?){
         
+    }
+    func configureForecastCell(data: WeatherList?){
+        guard let hour = hourFormatter.hourFormatter(dateString: data?.dt_txt ?? "") else {return}
+        timeLabel.text = hour
+        let temp = (data?.main.temp ?? 0) - 273.15
+        let tempFormat = String(format: "%.0f°", temp)
+        tempLabel.text = tempFormat
     }
 }

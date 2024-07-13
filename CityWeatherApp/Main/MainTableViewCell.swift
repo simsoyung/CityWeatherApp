@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 final class MainTableViewCell: BaseTableViewCell {
-    
+    let viewModel = WeatherModel()
     private lazy var dayLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -82,7 +82,10 @@ final class MainTableViewCell: BaseTableViewCell {
         addSubview(minTempLabel)
         addSubview(maxTempLabel)
     }
-    func configureCell(data: Weather?){
+    func configureWeatherCell(data: Weather?){
+        
+    }
+    func configureForecastCell(data: WeatherList?){
         
     }
 }
