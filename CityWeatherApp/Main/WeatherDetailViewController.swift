@@ -145,8 +145,10 @@ final class WeatherDetailViewController: BaseViewController {
         
         viewModel.outputForecastData.bind { weather in
             self.setData()
-            self.tableView.reloadData()
+        }
+        viewModel.onDataChanged = {
             self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
     }
     func setData(){
@@ -186,25 +188,20 @@ extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionVie
 
 extension WeatherDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.outputForecastData.value?.list.count ?? 0
+        return viewModel.filteredForecastData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
-//        let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.row]
-//        let dataForecast = viewModel.outputForecastData.value?.list[indexPath.row]
-//        cell.configureWeatherCell(data: dataWeather)
-//        cell.configureForecastCell(data: dataForecast)
-//        if let icon = viewModel.outputIconurl?[indexPath.row] {
-//            cell.setText(icon: icon)
-//        }
+        let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.row]
         let dataForecast = viewModel.filteredForecastData[indexPath.row]
-        let iconUrl = viewModel.outputIconurl?[indexPath.row] ?? ""
-        
+        cell.configureWeatherCell(data: dataWeather)
         cell.configureForecastCell(data: dataForecast)
-        cell.configureTimeCell(data: dataForecast.dt_txt)
-        cell.setText(icon: iconUrl)
+        if let icons = dataForecast.weather.first?.icon { //하나씩 빼서 배열에 담음
+            print(icons," ========  넘긴 icons")
+            cell.setText(icon: icons)
+        }
         return cell
         
     }

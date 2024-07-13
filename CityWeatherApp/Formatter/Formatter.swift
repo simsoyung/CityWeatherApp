@@ -20,7 +20,7 @@ final class hourFormatter {
             return nil
         }
     }
-    
+    //제일 마지막 시간만 가져오기
     static func dayFormatter(dateString: String, todayWeather: String) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -37,15 +37,20 @@ final class hourFormatter {
         }
         return nil
     }
+    //가져온값을 오늘이랑 비교해서 같으면 오늘이라고 표시 아니면 요일별로 표시
     static func dayOfWeek(from dateString: String) -> String? {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             dateFormatter.locale = Locale(identifier: "ko_KR")
             
             if let date = dateFormatter.date(from: dateString) {
-                dateFormatter.dateFormat = "EEEE"
-                dateFormatter.locale = Locale(identifier: "ko_KR")
-                return dateFormatter.string(from: date)
+                let calendar = Calendar.current
+                if calendar.isDateInToday(date) {
+                    return "오늘"
+                } else {
+                    dateFormatter.dateFormat = "EEEE"
+                    return dateFormatter.string(from: date)
+                }
             }
             return nil
         }

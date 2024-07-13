@@ -20,7 +20,8 @@ final class WeatherModel{
     var filteredForecastData: [WeatherList] = []
     var outputWeatherData: Observable<WeatherDecodable?> = Observable(nil) //받은 전체 데이터
     var outputForecastData: Observable<ForecastDecodable?> = Observable(nil)
-
+    var onDataChanged: (() -> Void)?
+    
     init(){
         transform()
         location.delegate = self
@@ -71,17 +72,21 @@ final class WeatherModel{
             self.filterForecastData()
         }
     }
-    private func saveCity(cityId: Int, cityName: String, lat: Double, lon: Double){ //도시랑 내 위치 realm에 저장??
-        repository.saveCityDetail(cityId: cityId, cityName: cityName, lat: lat, lon: lon)
-    }
+    
+//    private func saveCity(cityId: Int, cityName: String, lat: Double, lon: Double){ //도시랑 내 위치 realm에 저장??
+//        repository.saveCityDetail(cityId: cityId, cityName: cityName, lat: lat, lon: lon)
+//    }
+    
     func filterForecastData() {
             if let forecastData = outputForecastData.value?.list {
                 filteredForecastData = forecastData.filter { forecast in
-                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "12:00:00") != nil
+                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "21:00:00") != nil
                 }
             } else {
                 filteredForecastData = []
             }
+        print(filteredForecastData)
+        onDataChanged?()
         }
 }
 

@@ -16,6 +16,7 @@ final class MainTableViewCell: BaseTableViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 20, weight: .regular)
         label.textAlignment = .left
+        label.text = "오늘"
         return label
     }()
     
@@ -53,6 +54,7 @@ final class MainTableViewCell: BaseTableViewCell {
             make.leading.equalTo(contentView.safeAreaLayoutGuide).inset(20)
             make.centerY.equalToSuperview()
             make.height.equalTo(30)
+            make.width.equalTo(60)
         }
         iconImage.snp.makeConstraints { make in
             make.top.equalTo(contentView.safeAreaLayoutGuide).offset(10)
@@ -82,35 +84,23 @@ final class MainTableViewCell: BaseTableViewCell {
     func configureWeatherCell(data: Weather?){
         
     }
-    func configureTimeCell(data: String) {
-        guard let dataForecast = viewModel.outputForecastData.value?.list.first(where: { $0.dt_txt == data }) else {
-            return
-        }
-        
-        if let dayOfWeek = hourFormatter.dayOfWeek(from: dataForecast.dt_txt) {
-            dayLabel.text = dayOfWeek
-        } else {
-            dayLabel.text = nil
-        }
-    }
-
+    
     func setText(icon: String) {
-        if let url = URL(string: icon) {
+        if let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
+            print(url," ========  넘어온 url")
             iconImage.kf.setImage(with: url)
         }
     }
-
+    
     func configureForecastCell(data: WeatherList?){
         let tempMax = (data?.main.temp_max ?? 0) - 273.15
-        let tempMin = (data?.main.temp_min ?? 0) - 273.15
+        let tempMin = (data?.main.temp_max ?? 0) - 273.15
         let min = String(format: "최저 %.0f°", tempMin)
         let max = String(format: "최고 %.0f°", tempMax)
-        if let date = data?.dt_txt, let dayWeek = hourFormatter.dayOfWeek(from: date){
-            dayLabel.text = dayWeek
-            minTempLabel.text = min
-            maxTempLabel.text = max
-        } else {
-            dayLabel.text = nil
+        minTempLabel.text = min
+        maxTempLabel.text = max
+        if let date = data?.dt_txt {
+            dayLabel.text = hourFormatter.dayOfWeek(from: date)
         }
     }
 }

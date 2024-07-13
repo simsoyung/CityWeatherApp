@@ -68,7 +68,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         backgroundColor = .clear
     }
-    func setText(icon: String ) {
+    func setText(icon: String) {
         let url = URL(string: icon)
         iconImage.kf.setImage(with: url)
     }
