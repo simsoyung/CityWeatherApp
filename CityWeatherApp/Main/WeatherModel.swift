@@ -12,13 +12,12 @@ final class WeatherModel{
     let repository = WeatherRepository()
     let location = LocationManager()
     var getLocation: ((Double, Double) -> Void)?
-    
     var inputViewDidLoadTrigger: Observable<Int?> = Observable(0) //처음 id
     var inputViewDidLoadLat: Double = 0 //사용자 lat
     var inputViewDidLoadLon: Double = 0 //사용자 lon
     var inputCityId: Int? = nil //사용자 도시
-    var outpurIconurl: [String]? = []
-    var outputTimeList: [String]? = []
+    var outputIconurl: [String]? = []
+    var filteredForecastData: [WeatherList] = []
     var outputWeatherData: Observable<WeatherDecodable?> = Observable(nil) //받은 전체 데이터
     var outputForecastData: Observable<ForecastDecodable?> = Observable(nil)
 
@@ -68,12 +67,22 @@ final class WeatherModel{
         ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, iconUrls, error  in
             print("도시 3시간 단위 날씨")
             self.outputForecastData.value = value
-            self.outpurIconurl = iconUrls
+            self.outputIconurl = iconUrls
+            self.filterForecastData()
         }
     }
     private func saveCity(cityId: Int, cityName: String, lat: Double, lon: Double){ //도시랑 내 위치 realm에 저장??
         repository.saveCityDetail(cityId: cityId, cityName: cityName, lat: lat, lon: lon)
     }
+    func filterForecastData() {
+            if let forecastData = outputForecastData.value?.list {
+                filteredForecastData = forecastData.filter { forecast in
+                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "12:00:00") != nil
+                }
+            } else {
+                filteredForecastData = []
+            }
+        }
 }
 
 extension WeatherModel: LocationManagerDelegate {

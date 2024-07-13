@@ -56,7 +56,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
             make.top.equalTo(timeLabel.snp.bottom).offset(20)
             make.leading.equalTo(timeLabel.snp.leading)
             make.centerX.equalToSuperview()
-            make.size.equalTo(50)
+            make.size.equalTo(60)
         }
         tempLabel.snp.makeConstraints { make in
             make.top.equalTo(iconImage.snp.bottom).offset(20)

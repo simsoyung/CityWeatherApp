@@ -142,6 +142,7 @@ final class WeatherDetailViewController: BaseViewController {
     func bindData(){
         viewModel.location.startUpdatingLocation()
         viewModel.inputViewDidLoadTrigger.value = (nil)
+        
         viewModel.outputForecastData.bind { weather in
             self.setData()
             self.tableView.reloadData()
@@ -176,7 +177,7 @@ extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionVie
         let dataForecast = viewModel.outputForecastData.value?.list[indexPath.item]
         cell.configureWeatherCell(data: dataWeather)
         cell.configureForecastCell(data: dataForecast)
-        if let icon = viewModel.outpurIconurl?[indexPath.item] {
+        if let icon = viewModel.outputIconurl?[indexPath.item] {
             cell.setText(icon: icon)
         }
         return cell
@@ -185,23 +186,27 @@ extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionVie
 
 extension WeatherDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let weatherDataCount = viewModel.outputWeatherData.value?.weather.count {
-            return weatherDataCount
-        } else if let forecastDataCount = viewModel.outputForecastData.value?.list.count {
-            return forecastDataCount
-        } else {
-            return 0
-        }
+        return viewModel.outputForecastData.value?.list.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
-        let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.item]
-        let dataForecast = viewModel.outputForecastData.value?.list[indexPath.item]
-        cell.configureWeatherCell(data: dataWeather)
+//        let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.row]
+//        let dataForecast = viewModel.outputForecastData.value?.list[indexPath.row]
+//        cell.configureWeatherCell(data: dataWeather)
+//        cell.configureForecastCell(data: dataForecast)
+//        if let icon = viewModel.outputIconurl?[indexPath.row] {
+//            cell.setText(icon: icon)
+//        }
+        let dataForecast = viewModel.filteredForecastData[indexPath.row]
+        let iconUrl = viewModel.outputIconurl?[indexPath.row] ?? ""
+        
         cell.configureForecastCell(data: dataForecast)
+        cell.configureTimeCell(data: dataForecast.dt_txt)
+        cell.setText(icon: iconUrl)
         return cell
+        
     }
    
 }

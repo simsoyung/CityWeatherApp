@@ -31,10 +31,11 @@ class ResponseAPI {
                     var iconUrls: [String] = []
                     for forecast in icon.weather {
                         let iconCode = forecast.icon
-                            let iconUrlString = "https://openweathermap.org/img/wn/\(iconCode)@2x.png"
-                            iconUrls.append(iconUrlString)
+                        let iconUrlString = "https://openweathermap.org/img/wn/\(iconCode)@2x.png"
+                        iconUrls.append(iconUrlString)
                     }
                     completionHandler(value, iconUrls, "아이콘 URL 생성")
+
                 } else {
                     completionHandler(value, nil, "아이콘 URL 실패")
                 }
