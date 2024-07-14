@@ -14,13 +14,13 @@ final class DetailView: BaseView {
     private lazy var iconImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.tintColor = .darkGray
+        image.tintColor = .lightGray
         return image
     }()
     
     private lazy var typeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .lightGray
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .left
         return label
@@ -29,7 +29,7 @@ final class DetailView: BaseView {
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 30, weight: .regular)
+        label.font = .systemFont(ofSize: 35, weight: .regular)
         label.textAlignment = .left
         label.numberOfLines = 0
         return label

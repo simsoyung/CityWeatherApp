@@ -81,9 +81,9 @@ final class MainTableViewCell: BaseTableViewCell {
         addSubview(minTempLabel)
         addSubview(maxTempLabel)
     }
-    func configureWeatherCell(data: Weather?){
-        
-    }
+//    func configureWeatherCell(data: Weather?){
+//        
+//    }
     
     func setText(icon: String) {
         if let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
@@ -92,12 +92,15 @@ final class MainTableViewCell: BaseTableViewCell {
         }
     }
     
-    func configureForecastCell(data: WeatherList?){
-        let tempMax = (data?.main.temp_max ?? 0) - 273.15
+    func configureForecastCellMin(data: WeatherList?){
         let tempMin = (data?.main.temp_max ?? 0) - 273.15
         let min = String(format: "최저 %.0f°", tempMin)
-        let max = String(format: "최고 %.0f°", tempMax)
         minTempLabel.text = min
+    }
+
+    func configureForecastCell(data: WeatherList?){
+        let tempMax = (data?.main.temp_max ?? 0) - 273.15
+        let max = String(format: "최고 %.0f°", tempMax)
         maxTempLabel.text = max
         if let date = data?.dt_txt {
             dayLabel.text = hourFormatter.dayOfWeek(from: date)

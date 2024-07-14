@@ -17,7 +17,8 @@ final class WeatherModel{
     var inputViewDidLoadLon: Double = 0 //사용자 lon
     var inputCityId: Int? = nil //사용자 도시
     var outputIconurl: [String]? = []
-    var filteredForecastData: [WeatherList] = []
+    var filteredForecastMaxData: [WeatherList] = []
+    var filteredForecastMinData: [WeatherList] = []
     var outputWeatherData: Observable<WeatherDecodable?> = Observable(nil) //받은 전체 데이터
     var outputForecastData: Observable<ForecastDecodable?> = Observable(nil)
     var onDataChanged: (() -> Void)?
@@ -46,11 +47,11 @@ final class WeatherModel{
     
     private func callRequest(){
         guard inputViewDidLoadTrigger.value != nil else {return}
-//        ResponseAPI.shared.responseWeather(api: .locationWeather(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
-//            print("위치 현재날씨")
-//            self.outputWeatherData.value = value
-//            self.outpurIconurl = iconUrls
-//        }
+        ResponseAPI.shared.responseWeather(api: .locationWeather(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
+            print("위치 현재날씨")
+            self.outputWeatherData.value = value
+            self.outputIconurl = iconUrls
+        }
 //        ResponseAPI.shared.responseWeather(api: .cityIdWeather(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
 //            print("도시 현재날씨")
 //            self.outputWeatherData.value = value
@@ -69,7 +70,8 @@ final class WeatherModel{
             print("도시 3시간 단위 날씨")
             self.outputForecastData.value = value
             self.outputIconurl = iconUrls
-            self.filterForecastData()
+            self.filterForecastMaxData()
+            self.filterForecastMinData()
         }
     }
     
@@ -77,15 +79,26 @@ final class WeatherModel{
 //        repository.saveCityDetail(cityId: cityId, cityName: cityName, lat: lat, lon: lon)
 //    }
     
-    func filterForecastData() {
+    func filterForecastMaxData() {
             if let forecastData = outputForecastData.value?.list {
-                filteredForecastData = forecastData.filter { forecast in
-                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "21:00:00") != nil
+                filteredForecastMaxData = forecastData.filter { forecast in
+                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "12:00:00") != nil
                 }
             } else {
-                filteredForecastData = []
+                filteredForecastMaxData = []
             }
-        print(filteredForecastData)
+        print(filteredForecastMaxData)
+        onDataChanged?()
+        }
+    func filterForecastMinData() {
+            if let forecastData = outputForecastData.value?.list {
+                filteredForecastMinData = forecastData.filter { forecast in
+                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "00:00:00") != nil
+                }
+            } else {
+                filteredForecastMinData = []
+            }
+        print(filteredForecastMinData)
         onDataChanged?()
         }
 }

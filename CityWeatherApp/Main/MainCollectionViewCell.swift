@@ -30,7 +30,6 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 20, weight: .regular)
         label.textAlignment = .center
-        //label.text = "5°"
         return label
     }()
     
@@ -53,13 +52,13 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
             make.height.equalTo(20)
         }
         iconImage.snp.makeConstraints { make in
-            make.top.equalTo(timeLabel.snp.bottom).offset(20)
+            make.top.equalTo(timeLabel.snp.bottom).offset(10)
             make.leading.equalTo(timeLabel.snp.leading)
             make.centerX.equalToSuperview()
             make.size.equalTo(60)
         }
         tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(iconImage.snp.bottom).offset(20)
+            make.top.equalTo(iconImage.snp.bottom).offset(10)
             make.leading.equalTo(iconImage.snp.leading)
             make.centerX.equalToSuperview()
             make.height.equalTo(20)

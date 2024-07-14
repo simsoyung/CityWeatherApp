@@ -9,8 +9,6 @@ import UIKit
 import SnapKit
 import MapKit
 
-//import RealmSwift
-
 final class WeatherDetailViewController: BaseViewController {
     
     let viewModel = WeatherModel()
@@ -30,11 +28,9 @@ final class WeatherDetailViewController: BaseViewController {
             return mapView
         }()
     
-    //let realm = try! Realm()
-    
     static func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 70, height: 150)
+        layout.itemSize = CGSize(width: 70, height: 140)
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
         layout.scrollDirection = .horizontal
@@ -159,25 +155,24 @@ final class WeatherDetailViewController: BaseViewController {
         let tempMin = data.list[0].main.temp_min - 273.15
         let minmax = String(format: "최고: %.1f° | 최저: %.1f°", tempMax, tempMin)
         locationMainView.setText(location: data.city.name, temp: tempFormat, weatherResult: data.list[0].weather[0].description, minMaxTemp: minmax)
+        wind.setText(mainDetail: "\(viewModel.outputWeatherData.value?.wind.speed ?? 0)" ,subDetail: "m/s 바람이 불어요")
+        cloud.setText(mainDetail: "\(viewModel.outputWeatherData.value?.clouds.all ?? 0)" ,subDetail: "%만큼 구름이 꼈어요")
+        let pressureText = viewModel.outputWeatherData.value?.main.pressure
+        pressure.setText(mainDetail: hourFormatter.numFormatNumber(number: pressureText ?? 0),subDetail: "hPa")
+        humidity.setText(mainDetail: "\(viewModel.outputWeatherData.value?.main.humidity ?? 0)" ,subDetail: "% 만큼 습해요")
     }
 }
 
 extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let weatherDataCount = viewModel.outputWeatherData.value?.weather.count {
-            return weatherDataCount
-        } else if let forecastDataCount = viewModel.outputForecastData.value?.list.count {
-            return forecastDataCount
-        } else {
-            return 0
-        }
+        return viewModel.outputForecastData.value?.list.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as! MainCollectionViewCell
-        let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.item]
+        //let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.item]
         let dataForecast = viewModel.outputForecastData.value?.list[indexPath.item]
-        cell.configureWeatherCell(data: dataWeather)
+        //cell.configureWeatherCell(data: dataWeather)
         cell.configureForecastCell(data: dataForecast)
         if let icon = viewModel.outputIconurl?[indexPath.item] {
             cell.setText(icon: icon)
@@ -188,17 +183,19 @@ extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionVie
 
 extension WeatherDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.filteredForecastData.count
+        return viewModel.filteredForecastMaxData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
-        let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.row]
-        let dataForecast = viewModel.filteredForecastData[indexPath.row]
-        cell.configureWeatherCell(data: dataWeather)
-        cell.configureForecastCell(data: dataForecast)
-        if let icons = dataForecast.weather.first?.icon { //하나씩 빼서 배열에 담음
+        //let dataWeather = viewModel.outputWeatherData.value?.weather[indexPath.row]
+        let dataForecastMax = viewModel.filteredForecastMaxData[indexPath.row]
+        let dataForecastMin = viewModel.filteredForecastMinData[indexPath.row]
+        //cell.configureWeatherCell(data: dataWeather)
+        cell.configureForecastCell(data: dataForecastMax)
+        cell.configureForecastCellMin(data: dataForecastMin)
+        if let icons = dataForecastMax.weather.first?.icon { //하나씩 빼서 배열에 담음
             print(icons," ========  넘긴 icons")
             cell.setText(icon: icons)
         }

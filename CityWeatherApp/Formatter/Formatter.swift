@@ -54,4 +54,9 @@ final class hourFormatter {
             }
             return nil
         }
+    static func numFormatNumber(number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: number)) ?? "\(number)"
+    }
 }
