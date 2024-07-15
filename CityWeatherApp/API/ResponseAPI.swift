@@ -16,7 +16,7 @@ class ResponseAPI {
         AF.request(api.endpoint, method: api.method, parameters: api.parameter, encoding: URLEncoding(destination: .queryString)).responseString(completionHandler: { response in
             switch response.result {
             case .success(let value) :
-                print("API 응답 \(value)")
+                print("API 응답 ")
             case .failure(let error) :
                 print("실패 \(error.localizedDescription)")
             }
@@ -26,7 +26,7 @@ class ResponseAPI {
         AF.request(api.endpoint,method: api.method, parameters: api.parameter, encoding: URLEncoding(destination: .queryString)).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let value) :
-                print(value)
+
                 if let icon = value as? WeatherDecodable {
                     var iconUrls: [String] = []
                     for forecast in icon.weather {
@@ -48,7 +48,7 @@ class ResponseAPI {
         AF.request(api.endpoint,method: api.method, parameters: api.parameter, encoding: URLEncoding(destination: .queryString)).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let value) :
-                print(value)
+
                 if let icon = value as? ForecastDecodable {
                     var iconUrls: [String] = []
                     for forecast in icon.list {

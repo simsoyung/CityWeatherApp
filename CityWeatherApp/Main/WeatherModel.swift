@@ -48,7 +48,7 @@ final class WeatherModel{
     private func callRequest(){
         guard inputViewDidLoadTrigger.value != nil else {return}
         ResponseAPI.shared.responseWeather(api: .locationWeather(lat: inputViewDidLoadLat, lon: inputViewDidLoadLon, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
-            print("위치 현재날씨")
+            //print("위치 현재날씨")
             self.outputWeatherData.value = value
             self.outputIconurl = iconUrls
         }
@@ -67,7 +67,7 @@ final class WeatherModel{
 //            print(iconUrls, "아이콘")
 //        }
         ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, iconUrls, error  in
-            print("도시 3시간 단위 날씨")
+            //print("도시 3시간 단위 날씨")
             self.outputForecastData.value = value
             self.outputIconurl = iconUrls
             self.filterForecastMaxData()
