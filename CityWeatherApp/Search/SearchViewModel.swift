@@ -8,9 +8,25 @@
 import Foundation
 
 final class SearchViewModel {
-    var outputData: Observable<ForecastDecodable?> = Observable(nil)
+    
+    var inputViewDidLoadTrigger: Observable<Void?> = Observable(nil)
+    var outputData: Observable<[DummyData]> = Observable([])
     
     init(){
-        print("Detail!!!!!!", outputData.value)
+        load()
+    }
+    private func load(){
+        inputViewDidLoadTrigger.bind { _ in
+            self.decodeJSON()
+        }
+    }
+    private func decodeJSON(){
+        if let outputData = JSONLoader.shared.loadJSONFromFile(filename: "CityList") {
+            for dummyData in outputData {
+                self.outputData.value = outputData
+            }
+        } else {
+            print("no file")
+        }
     }
 }

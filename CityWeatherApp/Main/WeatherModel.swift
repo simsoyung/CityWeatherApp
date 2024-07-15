@@ -87,7 +87,7 @@ final class WeatherModel{
             } else {
                 filteredForecastMaxData = []
             }
-        print(filteredForecastMaxData)
+        ///print(filteredForecastMaxData)
         onDataChanged?()
         }
     func filterForecastMinData() {
@@ -98,7 +98,7 @@ final class WeatherModel{
             } else {
                 filteredForecastMinData = []
             }
-        print(filteredForecastMinData)
+        //print(filteredForecastMinData)
         onDataChanged?()
         }
 }
