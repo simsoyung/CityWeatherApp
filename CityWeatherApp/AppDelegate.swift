@@ -16,9 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appearance.backgroundColor = UIColor(hexCode: "253348", alpha: 1.0)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        let toolbarAppearance = UIToolbarAppearance()
+        toolbarAppearance.configureWithOpaqueBackground()
+        toolbarAppearance.backgroundColor = UIColor(hexCode: "1B2638", alpha: 1.0)
+        UIToolbar.appearance().standardAppearance = toolbarAppearance
+        UIToolbar.appearance().scrollEdgeAppearance = toolbarAppearance
         return true
     }
-
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -32,7 +36,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 

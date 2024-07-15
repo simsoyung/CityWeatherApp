@@ -16,6 +16,7 @@ final class SearchViewController: BaseViewController {
     
     override func configureView() {
         super.configureView()
+        view.backgroundColor = UIColor(hexCode: "253348", alpha: 1.0)
     }
     override func configureHierarchy() {
         

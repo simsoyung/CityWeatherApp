@@ -12,6 +12,7 @@ import MapKit
 final class WeatherDetailViewController: BaseViewController {
     
     let viewModel = WeatherModel()
+    let toolBar = UIToolbar()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let locationMainView = MainLocationView()
@@ -24,9 +25,9 @@ final class WeatherDetailViewController: BaseViewController {
     private let pressure = DetailView(frame: .zero, systemName: "wind", typeText: "기압")
     private let humidity = DetailView(frame: .zero, systemName: "cloud.rain", typeText: "습도")
     private let mapView: MKMapView = {
-            let mapView = MKMapView()
-            return mapView
-        }()
+        let mapView = MKMapView()
+        return mapView
+    }()
     
     static func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -40,7 +41,8 @@ final class WeatherDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindData()
-       // print(realm.configuration.fileURL)
+        
+        // print(realm.configuration.fileURL)
     }
     override func configureView() {
         super.configureView()
@@ -51,9 +53,11 @@ final class WeatherDetailViewController: BaseViewController {
         collectionView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         tableView.backgroundColor = UIColor(hexCode: "334660", alpha: 0.8)
         view.backgroundColor = UIColor(hexCode: "253348", alpha: 1.0)
-
+        navigationController?.isToolbarHidden = false
+        setupToolbarItems()
     }
     override func configureHierarchy() {
+        view.addSubview(toolBar)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(locationMainView)
@@ -161,8 +165,22 @@ final class WeatherDetailViewController: BaseViewController {
         pressure.setText(mainDetail: hourFormatter.numFormatNumber(number: pressureText ?? 0),subDetail: "hPa")
         humidity.setText(mainDetail: "\(viewModel.outputWeatherData.value?.main.humidity ?? 0)" ,subDetail: "% 만큼 습해요")
     }
+    func setupToolbarItems() {
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let mapButton = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(mapTapped))
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(searchTapped))
+        let barItems = [mapButton, flexibleSpace, searchButton]
+        toolbarItems = barItems
+    }
+    @objc func mapTapped() {
+        print("map button tapped")
+    }
+    
+    @objc func searchTapped() {
+        let vc = SearchViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
-
 extension WeatherDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.outputForecastData.value?.list.count ?? 0
