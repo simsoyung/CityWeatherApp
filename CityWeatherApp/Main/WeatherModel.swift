@@ -11,7 +11,7 @@ final class WeatherModel{
     
     let repository = WeatherRepository()
     let location = LocationManager()
-    var getLocation: ((Double, Double) -> Void)?
+    var inputCellLonLat: Observable<DummyData?> = Observable(nil)
     var inputViewDidLoadTrigger: Observable<Int?> = Observable(0) //처음 id
     var inputViewDidLoadLat: Double = 0 //사용자 lat
     var inputViewDidLoadLon: Double = 0 //사용자 lon
@@ -30,7 +30,9 @@ final class WeatherModel{
     private func transform(){
         inputViewDidLoadTrigger.bind { _ in
             self.callRequest()
-            self.location.startUpdatingLocation()
+        }
+        inputCellLonLat.bind { _ in
+            //도시 아이디로 검색! raload data
         }
     }
     private func requestCityId(){
@@ -107,14 +109,12 @@ extension WeatherModel: LocationManagerDelegate {
     func didFailWithError(error: any Error) {
         let defaultLat: Double = 37.517742
         let defaultLon: Double = 126.886463
-        getLocation?(defaultLat, defaultLon)
         inputViewDidLoadLat = defaultLat
         inputViewDidLoadLon = defaultLon
         print("위치 허용 안함!!", defaultLat, defaultLon)
     }
     
     func didUpdateLocations(lat: Double, lon: Double) {
-        getLocation?(lat, lon)
         inputViewDidLoadLat = lat
         inputViewDidLoadLon = lon
         print(lat, lon)

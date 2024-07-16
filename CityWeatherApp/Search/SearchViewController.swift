@@ -79,7 +79,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let data = viewModel.outputData.value[indexPath.row]
+        //이전뷰가 WeatherDetailViewController가 맞다면! 데이터보내
+        if let vc = navigationController?.viewControllers.dropLast().last as? WeatherDetailViewController {
+            vc.locationData?(data)
+        }
+        navigationController?.popViewController(animated: true)
     }
 }
 

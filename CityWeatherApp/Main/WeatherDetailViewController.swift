@@ -11,6 +11,7 @@ import MapKit
 
 final class WeatherDetailViewController: BaseViewController {
     
+    var locationData: ((DummyData) -> Void)?
     let viewModel = WeatherModel()
     let toolBar = UIToolbar()
     private let scrollView = UIScrollView()
@@ -43,6 +44,11 @@ final class WeatherDetailViewController: BaseViewController {
         bindData()
         
         // print(realm.configuration.fileURL)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        locationData = { data in
+            self.viewModel.inputCellLonLat.value = data
+        }
     }
     override func configureView() {
         super.configureView()
@@ -142,7 +148,7 @@ final class WeatherDetailViewController: BaseViewController {
     func bindData(){
         viewModel.location.startUpdatingLocation()
         viewModel.inputViewDidLoadTrigger.value = (nil)
-        
+       // viewModel.
         viewModel.outputForecastData.bind { weather in
             self.setData()
         }
