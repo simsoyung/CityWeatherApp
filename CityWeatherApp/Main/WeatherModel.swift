@@ -24,15 +24,20 @@ final class WeatherModel{
     var onDataChanged: (() -> Void)?
     
     init(){
+        print("init")
         transform()
         location.delegate = self
     }
+    deinit {
+        print("deinit")
+    }
     private func transform(){
-        inputViewDidLoadTrigger.bind { _ in
-            self.callRequest()
+        inputViewDidLoadTrigger.bind { [ weak self ] _ in
+            self?.callRequest()
         }
-        inputCellLonLat.bind { _ in
-            //도시 아이디로 검색! raload data
+        inputCellLonLat.bind { [ weak self ]_ in
+            print(self?.inputCellLonLat.value, "넘어온값????")
+            self?.callRequestSearch()
         }
     }
     private func requestCityId(){
@@ -44,6 +49,20 @@ final class WeatherModel{
             inputViewDidLoadTrigger.value = (idList[0].cityId)
         } else {
             inputViewDidLoadTrigger.value = (1835847)
+        }
+    }
+    private func callRequestSearch(){
+        ResponseAPI.shared.responseWeather(api: .locationWeather(lat: inputCellLonLat.value?.coord.lat ?? 0, lon: inputCellLonLat.value?.coord.lon ?? 0, key: "\(APIKey.weatherKey)"), model: WeatherDecodable.self) { value, iconUrls, error  in
+            //print("위치 현재날씨")
+            self.outputWeatherData.value = value
+            self.outputIconurl = iconUrls
+        }
+        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCellLonLat.value?.id ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { [ weak self ] value, iconUrls, error  in
+            //print("도시 3시간 단위 날씨")
+            self?.outputForecastData.value = value
+            self?.outputIconurl = iconUrls
+            self?.filterForecastMaxData()
+            self?.filterForecastMinData()
         }
     }
     
@@ -68,12 +87,12 @@ final class WeatherModel{
 //            print(value, "배열??")
 //            print(iconUrls, "아이콘")
 //        }
-        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { value, iconUrls, error  in
+        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCityId ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { [ weak self ] value, iconUrls, error  in
             //print("도시 3시간 단위 날씨")
-            self.outputForecastData.value = value
-            self.outputIconurl = iconUrls
-            self.filterForecastMaxData()
-            self.filterForecastMinData()
+            self?.outputForecastData.value = value
+            self?.outputIconurl = iconUrls
+            self?.filterForecastMaxData()
+            self?.filterForecastMinData()
         }
     }
     
@@ -89,7 +108,7 @@ final class WeatherModel{
             } else {
                 filteredForecastMaxData = []
             }
-        ///print(filteredForecastMaxData)
+        //print(filteredForecastMaxData)
         onDataChanged?()
         }
     func filterForecastMinData() {

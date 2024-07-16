@@ -13,11 +13,15 @@ final class SearchViewModel {
     var outputData: Observable<[DummyData]> = Observable([])
     
     init(){
+        print("init")
         load()
     }
+    deinit {
+        print("deinit")
+    }
     private func load(){
-        inputViewDidLoadTrigger.bind { _ in
-            self.decodeJSON()
+        inputViewDidLoadTrigger.bind { [ weak self ] _ in
+            self?.decodeJSON()
         }
     }
     private func decodeJSON(){

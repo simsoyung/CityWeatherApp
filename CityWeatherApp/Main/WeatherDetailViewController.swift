@@ -46,8 +46,9 @@ final class WeatherDetailViewController: BaseViewController {
         // print(realm.configuration.fileURL)
     }
     override func viewDidAppear(_ animated: Bool) {
-        locationData = { data in
-            self.viewModel.inputCellLonLat.value = data
+        locationData = { [ weak self ] data in
+            self?.viewModel.inputCellLonLat.value = data
+            self?.tableView.reloadData()
         }
     }
     override func configureView() {
@@ -149,8 +150,8 @@ final class WeatherDetailViewController: BaseViewController {
         viewModel.location.startUpdatingLocation()
         viewModel.inputViewDidLoadTrigger.value = (nil)
        // viewModel.
-        viewModel.outputForecastData.bind { weather in
-            self.setData()
+        viewModel.outputForecastData.bind {[ weak self ] weather in
+            self?.setData()
         }
         viewModel.onDataChanged = {
             self.collectionView.reloadData()

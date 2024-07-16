@@ -14,6 +14,8 @@ final class SearchViewController: BaseViewController {
     let tableView = UITableView()
     let searchBar = UISearchBar()
     var filteredData: [DummyData] = []
+    
+    var clousre: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +49,9 @@ final class SearchViewController: BaseViewController {
         }
     }
     func bindData(){
-        viewModel.outputData.bind{ _ in
-            self.filteredData = self.viewModel.outputData.value
-            self.tableView.reloadData()
+        viewModel.outputData.bind{ [ weak self ] _ in
+            self?.filteredData = self?.viewModel.outputData.value ?? []
+            self?.tableView.reloadData()
         }
     }
     private func setSearchBar(){
