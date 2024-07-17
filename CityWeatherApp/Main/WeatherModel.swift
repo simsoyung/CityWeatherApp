@@ -36,7 +36,7 @@ final class WeatherModel{
             self?.callRequest()
         }
         inputCellLonLat.bind { [ weak self ]_ in
-            print(self?.inputCellLonLat.value, "넘어온값????")
+            //print(self?.inputCellLonLat.value, "넘어온값????")
             self?.callRequestSearch()
         }
     }
