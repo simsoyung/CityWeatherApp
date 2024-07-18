@@ -44,7 +44,7 @@ class ResponseAPI {
             }
         }
     }
-    func responseForecast<T: Decodable>(api: WeatherRequest,model: T.Type, completionHandler: @escaping (T?, [String]? ,String?) -> Void) {
+    func responseForecast<T: Decodable>(api: WeatherRequest,model: T.Type, completionHandler: @escaping (T?, [String]?, String?) -> Void) {
         AF.request(api.endpoint,method: api.method, parameters: api.parameter, encoding: URLEncoding(destination: .queryString)).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let value) :

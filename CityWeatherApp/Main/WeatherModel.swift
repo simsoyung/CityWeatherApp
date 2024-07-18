@@ -57,7 +57,7 @@ final class WeatherModel{
             self.outputWeatherData.value = value
             self.outputIconurl = iconUrls
         }
-        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCellLonLat.value?.id ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) { [ weak self ] value, iconUrls, error  in
+        ResponseAPI.shared.responseForecast(api: .cityIdForecast(id: inputCellLonLat.value?.id ?? 1835847, key: "\(APIKey.weatherKey)"), model: ForecastDecodable.self) {[weak self] value, iconUrls, error  in
             //print("도시 3시간 단위 날씨")
             self?.outputForecastData.value = value
             self?.outputIconurl = iconUrls

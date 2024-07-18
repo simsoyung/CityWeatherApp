@@ -161,8 +161,8 @@
 		46D6BC4E2C3EB05900A8B683 /* CityWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				46D3EF782C42126800E0900F /* Formatter */,
 				46D6BC842C3EBF9600A8B683 /* .gitignore */,
+				46D3EF782C42126800E0900F /* Formatter */,
 				46D3EF752C41642400E0900F /* LocationManager */,
 				46D3EF722C41175200E0900F /* Realm */,
 				46D3EF6F2C41135600E0900F /* UserDefault */,

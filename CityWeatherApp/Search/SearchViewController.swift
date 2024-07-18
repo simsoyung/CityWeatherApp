@@ -94,14 +94,14 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard !searchText.isEmpty else {
             filteredData = viewModel.outputData.value
-            tableView.reloadData()
+            //tableView.reloadData()
             return
         }
         let lowercasedSearchText = searchText.lowercased()
         filteredData = viewModel.outputData.value.filter { data in
             data.name.lowercased().contains(lowercasedSearchText)
         }
-        tableView.reloadData()
+        //tableView.reloadData()
     }
 }
 
