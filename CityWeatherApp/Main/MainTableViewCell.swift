@@ -103,7 +103,7 @@ final class MainTableViewCell: BaseTableViewCell {
         let max = String(format: "최고 %.0f°", tempMax)
         maxTempLabel.text = max
         if let date = data?.dt_txt {
-            dayLabel.text = hourFormatter.dayOfWeek(from: date)
+            dayLabel.text = LocationFormatter.dayOfWeek(from: date)
         }
     }
 }

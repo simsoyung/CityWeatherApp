@@ -75,7 +75,7 @@ final class MainCollectionViewCell: BaseCollectionViewCell {
         
     }
     func configureForecastCell(data: WeatherList?){
-        guard let hour = hourFormatter.hourFormatter(dateString: data?.dt_txt ?? "") else {return}
+        guard let hour = LocationFormatter.hourFormatter(dateString: data?.dt_txt ?? "") else {return}
         timeLabel.text = hour
         let temp = (data?.main.temp ?? 0) - 273.15
         let tempFormat = String(format: "%.0f°", temp)

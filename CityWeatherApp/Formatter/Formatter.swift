@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class hourFormatter {
+final class LocationFormatter {
     static func hourFormatter(dateString: String) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"

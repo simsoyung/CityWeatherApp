@@ -169,7 +169,7 @@ final class WeatherDetailViewController: BaseViewController {
         wind.setText(mainDetail: "\(viewModel.outputWeatherData.value?.wind.speed ?? 0)" ,subDetail: "m/s 바람이 불어요")
         cloud.setText(mainDetail: "\(viewModel.outputWeatherData.value?.clouds.all ?? 0)" ,subDetail: "%만큼 구름이 꼈어요")
         let pressureText = viewModel.outputWeatherData.value?.main.pressure
-        pressure.setText(mainDetail: hourFormatter.numFormatNumber(number: pressureText ?? 0),subDetail: "hPa")
+        pressure.setText(mainDetail: LocationFormatter.numFormatNumber(number: pressureText ?? 0),subDetail: "hPa")
         humidity.setText(mainDetail: "\(viewModel.outputWeatherData.value?.main.humidity ?? 0)" ,subDetail: "% 만큼 습해요")
     }
     func setupToolbarItems() {

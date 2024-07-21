@@ -103,7 +103,7 @@ final class WeatherModel{
     func filterForecastMaxData() {
             if let forecastData = outputForecastData.value?.list {
                 filteredForecastMaxData = forecastData.filter { forecast in
-                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "12:00:00") != nil
+                    return LocationFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "12:00:00") != nil
                 }
             } else {
                 filteredForecastMaxData = []
@@ -114,7 +114,7 @@ final class WeatherModel{
     func filterForecastMinData() {
             if let forecastData = outputForecastData.value?.list {
                 filteredForecastMinData = forecastData.filter { forecast in
-                    return hourFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "00:00:00") != nil
+                    return LocationFormatter.dayFormatter(dateString: forecast.dt_txt, todayWeather: "00:00:00") != nil
                 }
             } else {
                 filteredForecastMinData = []
